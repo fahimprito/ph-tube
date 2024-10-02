@@ -1,4 +1,10 @@
 // console.log('videos added');
+function getTimeString (time){
+    const hour = parseInt(time/3600);
+    let remainingTime = time%3600;
+    const min = parseInt(remainingTime/60);
+    return `${hour}hrs ${min}min ago`; 
+}
 
 
 const loadVideos = async () => {
@@ -13,24 +19,24 @@ const loadVideos = async () => {
 
 }
 
-const cardDemo = {
-    "category_id": "1003",
-    "video_id": "aaac",
-    "thumbnail": "https://i.ibb.co/NTncwqH/luahg-at-pain.jpg",
-    "title": "Laugh at My Pain",
-    "authors": [
-        {
-            "profile_picture": "https://i.ibb.co/XVHM7NP/kevin.jpg",
-            "profile_name": "Kevin Hart",
-            "verified": false
-        }
-    ],
-    "others": {
-        "views": "1.1K",
-        "posted_date": "13885"
-    },
-    "description": "Comedian Kevin Hart brings his unique brand of humor to life in 'Laugh at My Pain.' With 1.1K views, this show offers a hilarious and candid look into Kevin's personal stories, struggles, and triumphs. It's a laugh-out-loud experience filled with sharp wit, clever insights, and a relatable charm that keeps audiences coming back for more."
-}
+// const cardDemo = {
+//     "category_id": "1003",
+//     "video_id": "aaac",
+//     "thumbnail": "https://i.ibb.co/NTncwqH/luahg-at-pain.jpg",
+//     "title": "Laugh at My Pain",
+//     "authors": [
+//         {
+//             "profile_picture": "https://i.ibb.co/XVHM7NP/kevin.jpg",
+//             "profile_name": "Kevin Hart",
+//             "verified": false
+//         }
+//     ],
+//     "others": {
+//         "views": "1.1K",
+//         "posted_date": "13885"
+//     },
+//     "description": "Comedian Kevin Hart brings his unique brand of humor to life in 'Laugh at My Pain.' With 1.1K views, this show offers a hilarious and candid look into Kevin's personal stories, struggles, and triumphs. It's a laugh-out-loud experience filled with sharp wit, clever insights, and a relatable charm that keeps audiences coming back for more."
+// }
 
 
 const displayVideos = (videos) => {
@@ -46,8 +52,12 @@ const displayVideos = (videos) => {
         card.classList = "card card-compact ";
         card.innerHTML = `
         
-        <figure class="rounded-xl">
+        <figure class="rounded-xl relative">
                     <img class="w-full h-60" src=${item.thumbnail} alt="Shoes" />
+                    ${
+                        item.others.posted_date?.length == 0 ? "" : `<span class="absolute bg-black text-white right-2 bottom-2 p-1 rounded-md text-xs"> ${getTimeString(item.others.posted_date)}</span>`
+                    }
+                    
                 </figure>
                 <div class="card-body">
                     <div class="flex gap-3">
