@@ -42,9 +42,28 @@ const loadVideos = async () => {
 const displayVideos = (videos) => {
 
     const videoContainer = document.getElementById('videos');
+    videoContainer.innerHTML = "";
+
+    if(videos.length == 0){
+        videoContainer.classList.remove("grid");
+        videoContainer.innerHTML = `   
+        <div class="min-h-96 flex justify-center items-center">
+            <div class="flex flex-col justify-center items-center gap-6">
+                <img src="./assets/Icon.png" alt="">
+                <p class="text-4xl text-center font-bold">Oops!! Sorry, There is no content here</p>
+            </div>
+        </div>         
+        
+        
+        `;
+        return;
+    }
+    else{
+        videoContainer.classList.add("grid");
+    }
 
     videos.forEach(item => {
-        console.log(item);
+        // console.log(item);
 
 
         // create video card

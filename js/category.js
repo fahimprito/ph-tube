@@ -13,22 +13,37 @@ const loadCategories = async () => {
 
 }
 
+const loadCategorieVideos = async(id) => {
+    // alert(id)
+    try {
+        const res = await fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`);
+        const data = await res.json();
+        // console.log(data.category);
+        displayVideos(data.category);
+    }
+    catch(error){
+        console.log('ERROR:', error)
+    }
+}
 
 const displayCategories = (categories) => {
     
     const categorieContainer = document.getElementById('categorie-container');
     
     categories.forEach(item => {
-        console.log(item);
+        // console.log(item);
 
 
         // create buttonn
-        const button = document.createElement('button');
-        button.classList.add('btn' , 'text-xl');
-        button.innerText = item.category;
+        const buttonContainer = document.createElement('div');
+        buttonContainer.innerHTML = `
+            <button onclick="loadCategorieVideos(${item.category_id})" class="btn text-xl">${item.category}</button>
+        
+        `;
+        
     
         // add button
-        categorieContainer.appendChild(button);
+        categorieContainer.appendChild(buttonContainer);
 
     });
 
