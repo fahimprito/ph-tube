@@ -1,9 +1,9 @@
 // console.log('videos added');
-function getTimeString (time){
-    const hour = parseInt(time/3600);
-    let remainingTime = time%3600;
-    const min = parseInt(remainingTime/60);
-    return `${hour}hrs ${min}min ago`; 
+function getTimeString(time) {
+    const hour = parseInt(time / 3600);
+    let remainingTime = time % 3600;
+    const min = parseInt(remainingTime / 60);
+    return `${hour}hrs ${min}min ago`;
 }
 
 
@@ -18,6 +18,28 @@ const loadVideos = async () => {
     }
 
 }
+
+const loadDetails = async (videoId) => {
+    console.log(videoId);
+    const uri = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+    const res = await fetch(uri);
+    const data = await res.json();
+    displayDetails(data.video);
+
+}
+
+const displayDetails = (video) => {
+    console.log(video);
+    const detailContainer = document.getElementById("modal-content");
+
+    detailContainer.innerHTML = `
+     <img src=${video.thumbnail} />
+     <p>${video.description}</p>
+    `;
+
+    // show modal 
+    document.getElementById("customModal").showModal();
+};
 
 // const cardDemo = {
 //     "category_id": "1003",
@@ -44,7 +66,7 @@ const displayVideos = (videos) => {
     const videoContainer = document.getElementById('videos');
     videoContainer.innerHTML = "";
 
-    if(videos.length == 0){
+    if (videos.length == 0) {
         videoContainer.classList.remove("grid");
         videoContainer.innerHTML = `   
         <div class="min-h-96 flex justify-center items-center">
@@ -58,7 +80,7 @@ const displayVideos = (videos) => {
         `;
         return;
     }
-    else{
+    else {
         videoContainer.classList.add("grid");
     }
 
@@ -71,24 +93,31 @@ const displayVideos = (videos) => {
         card.classList = "card card-compact ";
         card.innerHTML = `
         
-        <figure class="rounded-xl relative">
+            <figure class="rounded-xl relative">
                     <img class="w-full h-60" src=${item.thumbnail} alt="Shoes" />
-                    ${
-                        item.others.posted_date?.length == 0 ? "" : `<span class="absolute bg-black text-white right-2 bottom-2 p-1 rounded-md text-xs"> ${getTimeString(item.others.posted_date)}</span>`
-                    }
-                    
-                </figure>
+                    ${item.others.posted_date?.length == 0 ? "" : `<span class="absolute bg-black text-white right-2 bottom-2 p-1 rounded-md text-xs"> ${getTimeString(item.others.posted_date)}</span>`
+            }                    
+            </figure>
+
                 <div class="card-body">
-                    <div class="flex gap-3">
-                        <img class="w-10 h-10 rounded-full object-cover" src=${item.authors[0].profile_picture} alt="">
-                        <div>
-                            <h2 class="text-lg font-bold">${item.title}</h2>
-                            <div class="flex items-center gap-2">
-                                <p>${item.authors[0].profile_name}</p>
-                                ${item.authors[0].verified === true ? `<img class="w-4 h-4" src="./assets/verified.png" alt=""></img>` : '' }
+                    <div class="flex justify-between">
+                        <div class="flex gap-3>
+                            <img class="w-10 h-10 rounded-full object-cover" src=${item.authors[0].profile_picture} alt="">
+                            <div>
+                                <h2 class="text-lg font-bold">${item.title}</h2>
+                                <div class="flex items-center gap-2">
+                                    <p>${item.authors[0].profile_name}</p>
+                                    ${item.authors[0].verified === true ? `<img class="w-4 h-4" src="./assets/verified.png" alt=""></img>` : ''}
+                                </div>
+                                
+                                <p>${item.others.views}</p>
                             </div>
-                            
-                            <p>${item.others.views}</p>
+                        </div>
+                        
+                        
+                        <div class = "w-5">
+                            <a class="tooltip hover:cursor-pointer" data-tip="Details">
+                            <img onclick="loadDetails('${item.video_id}')"  src="./assets/details.png" alt=""></a>
                         </div>
                     </div>
                 </div>
