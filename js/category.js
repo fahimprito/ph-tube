@@ -32,7 +32,7 @@ const loadCategorieVideos = async (id) => {
 
         // add active style 
         const activeBtn = document.getElementById(`btn-${id}`)
-        console.log(activeBtn);
+        // console.log(activeBtn);
         activeBtn.classList.add("bg-red-500", "text-white");
         displayVideos(data.category);
     }
